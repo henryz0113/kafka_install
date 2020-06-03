@@ -4,4 +4,61 @@
  -Centos7에 OpenJDK8 
  
  
+ 2. 설치전 작업 (root)
  
+vi /etc/hosts
+0.0.0.0 kafka1  
+
+## 주키퍼 포트 
+ firewall-cmd --permanent --zone=public --add-port=2181/tcp
+ firewall-cmd --permanent --zone=public --add-port=2888/tcp
+ firewall-cmd --permanent --zone=public --add-port=3888/tcp
+
+## 카프카 포트
+ firewall-cmd --permanent --zone=public --add-port=9092/tcp
+
+## 방화벽 재시작 
+ firewall-cmd --reload
+
+3. 주기퍼(Zookeeper) 설치 http://apache.tt.co.kr/zookeeper/stable/
+
+tar zxf zookeeper-3.4.12.tar.gz 
+ln -s zookeeper-3.4.12 zookeeper
+
+mkdir data
+echo 1 > data/myid  
+
+cd zookeeper/conf
+cp zoo_sample.cfg zoo.cfg
+vi zoo.cfg
+
+[kafka@oframe conf]$ cat zoo.cfg 
+# The number of milliseconds of each tick
+tickTime=2000
+# The number of ticks that the initial 
+# synchronization phase can take
+initLimit=10
+# The number of ticks that can pass between 
+# sending a request and getting an acknowledgement
+syncLimit=5
+# the directory where the snapshot is stored.
+# do not use /tmp for storage, /tmp here is just 
+# example sakes.
+dataDir=/tmp/zookeeper
+# the port at which the clients will connect
+clientPort=2181
+# the maximum number of client connections.
+# increase this if you need to handle more clients
+#maxClientCnxns=60
+#
+# Be sure to read the maintenance section of the 
+# administrator guide before turning on autopurge.
+#
+# http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_maintenance
+#
+# The number of snapshots to retain in dataDir
+#autopurge.snapRetainCount=3
+# Purge task interval in hours
+# Set to "0" to disable auto purge feature
+#autopurge.purgeInterval=1
+server.1=kafka1:2888:3888
