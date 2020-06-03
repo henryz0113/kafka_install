@@ -62,3 +62,33 @@ clientPort=2181
 # Set to "0" to disable auto purge feature
 #autopurge.purgeInterval=1
 server.1=kafka1:2888:3888
+
+
+
+####이제 실행시켜보자.
+
+./zookeeper/bin/zkServer.sh start
+정상적이라면 아래처럼 메시지가 출력된다.
+
+ZooKeeper JMX enabled by default
+Using config: /home/ykkim/zookeeper/bin/../conf/zoo.cfg
+Starting zookeeper ... STARTED
+
+
+*FAILED가 나오면 apache-zookeeper-3.5.8-bin.tar.gz 으로 다시 설치를 한다.
+
+###이제 정지시켜보자
+./zookeeper/bin/zkServer.sh stop
+
+다음처럼 Alias를 걸어서 기동을 시켜보자
+# ZOOKEEPER ENV
+export ZOO_HOME=/home/kafka/apache-zookeeper-3.5.8-bin/
+PATH="/home/kafka/apache-zookeeper-3.5.8-bin/bin:/home/kafka/apache-zookeeper-3.5.8-bin/lib:${PATH}"
+export PATH
+alias zooboot='zkServer.sh start'
+alias zoodown='zkServer.sh stop'
+
+
+
+
+
