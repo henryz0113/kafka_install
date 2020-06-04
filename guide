@@ -71,7 +71,7 @@ server.1=kafka1:2888:3888
 정상적이라면 아래처럼 메시지가 출력된다.
 
 ZooKeeper JMX enabled by default
-Using config: /home/ykkim/zookeeper/bin/../conf/zoo.cfg
+Using config: /home/kafka/zookeeper/bin/../conf/zoo.cfg
 Starting zookeeper ... STARTED
 
 
@@ -89,6 +89,60 @@ alias zooboot='zkServer.sh start'
 alias zoodown='zkServer.sh stop'
 
 
+4. 카프카(Kafka) 설치 https://kafka.apache.org/downloads
 
+mkdir data1
+
+vi kafka/config/server.properties
+
+변경해야하는 내용 
+
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# see kafka.server.KafkaConfig for additional details and defaults
+
+############################# Server Basics #############################
+
+# The id of the broker. This must be set to a unique integer for each broker.
+broker.id=1
+
+############################# Socket Server Settings #############################
+
+# The address the socket server listens on. It will get the value returned from 
+# java.net.InetAddress.getCanonicalHostName() if not configured.
+#   FORMAT:
+#     listeners = listener_name://host_name:port
+#   EXAMPLE:
+#     listeners = PLAINTEXT://your.host.name:9092
+listeners=PLAINTEXT://oframe:9093
+
+
+############################# Log Basics #############################
+
+# A comma separated list of directories under which to store log files
+log.dirs=/home/kafka/data1,/home/kafka/data2
+
+# Zookeeper connection string (see zookeeper docs for details).
+# This is a comma separated host:port pairs, each corresponding to a zk
+# server. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002".
+# You can also append an optional chroot string to the urls to specify the
+# root directory for all kafka znodes.
+#zookeeper.connect=localhost:2181/kafka-oframe
+zookeeper.connect=kafka1:2181
+
+
+5. Kafka 기동 
+
+./kafka/bin/kafka-server.start.sh home/kafka/kafka/config/server.properties
+[KafkaServer id=1] started (kafka.server.KafkaServer)
+
+# KAFKA ENV
+export KAFKA_HOME=/home/kafka/kafka/
+PATH="/home/kafka/kafka//libs:/home/kafka/kafka/bin:${PATH}"
+export PATH
+alias kafboot='kafka-server-start.sh /home/kafka/kafka/config/server.1.properties'
+alias kafdown='kafka-server-stop.sh'
 
 
