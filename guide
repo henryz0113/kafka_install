@@ -153,21 +153,43 @@ TOPIC CREATE
 Created topic oframe-kafka.
 
 
-TOPIC에 MESSGE 넣기
+7. TOPIC에 MESSGE 넣기
 [kafka@oframe bin]$ kafka-console-producer.sh --broker-list kafka1:9092 --topic oframe-kafka
 >Hello Oframe    
->you are the best oframe
->
->
->HELLO
->We are the world we are the childern
 >
 
-TOPIC에 MESSGE 받기
+8. TOPIC에 MESSGE 받기
 [kafka@oframe bin]$ kafka-console-consumer.sh --bootstrap-server kafka1:9092 --topic oframe-kafka --from-beginning
 Hello Oframe
-you are the best oframe
 
 
-HELLO 
-We are the world we are the childern
+9. 파이썬으로 넣고 받기
+
+받기 
+[kafka@oframe KAFKA]$ vi get.py 
+
+from kafka import KafkaConsumer
+consumer = KafkaConsumer('sample1')      <===Topic 이름
+for message in consumer:
+    end = message.value
+    print (end)
+                  
+
+넣기
+[kafka@oframe KAFKA]$ vi put.py 
+from kafka import KafkaProducer
+try:
+    producer = KafkaProducer(bootstrap_servers='kafka1:9092')
+except:
+    print ('Connection Fail')
+
+
+def putmsg_kaf(producer):
+    try :
+        producer.send('sample1', 'JACOB, World!')
+        print('Message published successfully.')
+        producer.flush()
+    except:
+         print('Exception in publishing message')
+
+putmsg_kaf(producer)
