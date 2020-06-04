@@ -146,3 +146,28 @@ alias kafboot='kafka-server-start.sh /home/kafka/kafka/config/server.1.propertie
 alias kafdown='kafka-server-stop.sh'
 
 
+6. Kafka 동작 확인
+
+TOPIC CREATE
+[kafka@oframe bin]$ sh kafka-topics.sh --zookeeper kafka1:2181 --replication-factor 1 --partitions 1 --topic oframe-kafka --create
+Created topic oframe-kafka.
+
+
+TOPIC에 MESSGE 넣기
+[kafka@oframe bin]$ kafka-console-producer.sh --broker-list kafka1:9092 --topic oframe-kafka
+>Hello Oframe    
+>you are the best oframe
+>
+>
+>HELLO
+>We are the world we are the childern
+>
+
+TOPIC에 MESSGE 받기
+[kafka@oframe bin]$ kafka-console-consumer.sh --bootstrap-server kafka1:9092 --topic oframe-kafka --from-beginning
+Hello Oframe
+you are the best oframe
+
+
+HELLO 
+We are the world we are the childern
