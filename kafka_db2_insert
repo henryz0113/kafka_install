@@ -1,0 +1,47 @@
+import pyodbc
+from kafka import KafkaConsumer, TopicPartition
+consumer = KafkaConsumer('sample1')
+
+idtm ="TM"
+
+#Check KEY VALUE idtm, if T inserte table
+for message in consumer:
+     data = message.value
+     key1 = data.find("TM")
+     key2 = data.find("TD")
+
+     #IF TRUE INSERT TO TABLE
+     if key1 == 0:
+         #DATA STRING SPLIT
+         com, dept, name, team, tel = data.split()
+         #tbdata = data.split()
+
+         #DB CONNECT 
+         connection = pyodbc.connect(DSN='oframe',uid='tibero',pwd='tmax')
+
+         #DB INSERT TABLE
+         cursor=connection.cursor()
+         insrt = "INSERT INTO KAFKA_OFRAME (COMPANY, DEPT, NAME, TEAM, TELL) VALUES (" +\
+               "'" + com  + "'"  + "," +\
+               "'" + dept + "'" + "," +\
+               "'" + name +  "'" + "," +\
+               "'"  +\
+               team + "'" + "," +\
+               "'"  +\
+               tel +"')"
+         #TIP ! PreparedStmt pstmt = new Prepared..();
+         #TIP ! pstmt.set~~~~~
+         print('chk:' + insrt)
+         cursor.execute(insrt)
+         cursor.commit()
+
+         #VERIFY TABLE
+         slc = "select * from KAFKA_OFRAME"
+         cursor.execute(slc)
+         rows = cursor.fetchall()
+
+         for row in rows:
+             print(row)
+         cursor.close()
+         connection.close
+     break
