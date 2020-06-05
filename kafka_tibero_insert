@@ -17,7 +17,7 @@ for message in consumer:
          #tbdata = data.split()
 
          #DB CONNECT 
-         connection = pyodbc.connect(DSN='oframe',uid='tibero',pwd='tmax')
+         connection = pyodbc.connect(DSN='*******',uid='*****',pwd='******')
 
          #DB INSERT TABLE
          cursor=connection.cursor()
