@@ -1,7 +1,7 @@
 카프카(Kafka)를 설치(Install)해보자
 
 카프카를 설치하는 환경은 Virtualbox를 통해 Centos7에 설치
- -Centos7에 OpenJDK8 
+ -Centos7에 OpenJDK1.8 
  
  
  2. 설치전 작업 (root)
